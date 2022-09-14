@@ -1,0 +1,32 @@
+@charset "UTF-8";
+/* 입력 */
+.addFolder-radio input[type="radio"]{
+  display:none;
+}
+.addFolder-radio input[type="radio"] + span{
+  background:none;
+  text-align:center;
+  cursor:pointer;
+  color:#23a3a7;
+}
+.addFolder-radio input[type="radio"]:checked + span{
+  color:#FF5E00;
+}
+
+/* 수정 */
+.updateFolder-radio input[type="radio"]{
+  display:none;
+}
+.updateFolder-radio input[type="radio"] + span{
+  background:none;
+  text-align:center;
+  cursor:pointer;
+  color:#23a3a7;
+}
+.updateFolder-radio input[type="radio"]:checked + span{
+  color:#FF5E00;
+}
+
+input{
+	font-family:'SDSamliphopangche_Outline';
+}

@@ -1,0 +1,74 @@
+@font-face {
+    font-family: 'SDSamliphopangche_Outline';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+body{
+     font-family: 'SDSamliphopangche_Outline';
+     font-weight: 400;
+      }
+input{
+    font-family:'SDSamliphopangche_Outline';
+}
+
+
+.main2{
+display: none;
+}
+.ID_PW_Find{
+text-align: center;
+}
+.if_find_fom{
+margin-left: 40%;
+}
+.pw_find_fom{
+margin-left: 40%;
+}
+.margin_fome{
+font-size:35px;
+margin-left: 32%;
+margin-top: 23px;
+}
+.margin_fome1{
+margin-left: 32%;
+margin-top: 14px;
+font-size: 35px;
+}
+.buttonOK{
+margin-left: 40%;
+margin-top: 16px;
+font-size: 33px;
+}
+.view{
+position: absolute;
+top: 27%;
+left: 28%;
+text-align: center;
+}
+.findIdview1{
+font-size: 38px;
+display: inline-block;
+}
+.findIdview{
+display: inline-block;
+margin-top: 10px;
+margin-bottom: 10px;
+position: static;
+}
+.findIdview2{
+font-size: 34px;
+display: inline-block;
+}
+#myinput1{
+	font-size: 38px;
+	color: red;
+	width: 230px;
+	text-align: center;
+}
+#myinput2{
+	font-size: 38px;
+	color: red;
+	width: 230px;
+	text-align: center;
+}

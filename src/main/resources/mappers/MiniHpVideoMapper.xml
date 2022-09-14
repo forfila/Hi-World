@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiworld.minihp.dao.MiniHpVideoDAO">
+	<select id="getFolderScope" resultType="int">
+		SELECT scope FROM MiniHP_Video_Folder
+		WHERE serial=#{folderSerial}
+	</select>
+	
+	<!-- 폴더 관련 -->
+	<!-- 기본 폴더를 제외한 모든 폴더 찾기 -->
+	<select id="getAllFolder" resultType="com.hiworld.minihp.vo.MiniHPVideoFolderVO">
+		SELECT * FROM MiniHP_Video_Folder WHERE UserSerial=#{userSerial}
+	</select>
+	<insert id="addFolder" parameterType="com.hiworld.minihp.vo.MiniHPVideoFolderVO">
+		INSERT INTO MiniHP_Video_Folder(UserSerial,folderName,scope)
+		VALUES(#{userSerial},#{folderName},#{scope})
+	</insert>
+	
+	<select id="countInsideFolder" resultType="int">
+		SELECT COUNT(folderSerial) FROM MiniHP_Video_View
+		WHERE folderSerial=#{serial}
+	</select>
+	<delete id="deleteFolder">
+		DELETE FROM MiniHP_Video_Folder
+		WHERE serial = #{serial}
+	</delete>
+
+	<update id="updateFolder" parameterType="com.hiworld.minihp.vo.MiniHPVideoFolderVO">
+		UPDATE MiniHP_Video_Folder
+		SET folderName=#{folderName},scope=#{scope}
+		WHERE serial=#{serial}
+	</update>
+	
+	
+	
+	<!-- 게시판 관련 -->
+	<select id="getFirstFolderSerial" resultType="int">
+		SELECT serial FROM MiniHP_Video_Folder
+		WHERE UserSerial=#{userSerial}
+		LIMIT 1
+	</select>
+	<select id="getAll" resultType="com.hiworld.minihp.vo.MiniHpVideoVO">
+		SELECT * FROM MiniHP_Video_View
+		WHERE folderSerial=#{folderSerial}
+		ORDER BY cDate DESC
+		LIMIT #{offset}, #{size}
+	</select>
+	<select id="getFolderName" resultType="string">
+		SELECT folderName FROM MiniHP_Video_Folder
+		WHERE serial = #{folderSerial}
+	</select>
+	
+	<!-- insert -->
+	<insert id="insert" parameterType="com.hiworld.minihp.vo.MiniHpVideoVO">
+		INSERT INTO MiniHP_Video(UserSerial,folderSerial,title,content,file)
+		VALUES(#{userSerial},#{folderSerial},#{title},#{content},#{file})
+	</insert>
+	
+	<update id="updateVideoFolder" parameterType="int">
+		UPDATE MiniHP_Video
+		SET folderSerial=#{folderSerial}
+		WHERE videoSerial=#{videoSerial}
+	</update>
+	
+	<!-- delete -->
+	<delete id="delete">
+		DELETE FROM MiniHP_Video
+		WHERE videoSerial=#{serial}
+	</delete>
+	
+	<!-- update -->
+	<select id="get" resultType="com.hiworld.minihp.vo.MiniHpVideoVO">
+		SELECT * FROM MiniHP_Video_View
+		WHERE videoSerial = #{serial}
+	</select>
+	<update id="update" parameterType="com.hiworld.minihp.vo.MiniHpVideoVO">
+		UPDATE MiniHP_Video
+		SET title=#{title}, content=#{content}, file=#{file}, uDate=CURRENT_TIMESTAMP
+		WHERE videoSerial=#{videoSerial};
+	</update>
+	
+	<!-- 댓글 -->
+	<select id="getReplyCnt" resultType="int">
+		SELECT COUNT(videoSerial) FROM MiniHP_Video_Reply
+		WHERE videoSerial=#{videoSerial}
+	</select>
+	<select id="getAllReply" resultType="com.hiworld.minihp.vo.MiniHpVideoReplyVO">
+		SELECT * FROM MiniHP_Video_Reply_View
+		WHERE videoSerial=#{videoSerial}
+	</select>
+	<insert id="insertReply" parameterType="com.hiworld.minihp.vo.MiniHpVideoReplyVO">
+		INSERT INTO MiniHP_Video_Reply(UserSerial,videoSerial,replyContent)
+		VALUES(#{userSerial},#{videoSerial},#{replyContent})
+	</insert>
+	<delete id="deleteReply">
+		DELETE FROM MiniHP_Video_Reply
+		WHERE replySerial=#{serial}
+	</delete>
+	<update id="updateReply">
+		UPDATE MiniHP_Video_Reply
+		SET replyContent=#{content}
+		WHERE replySerial=#{serial}
+	</update>
+</mapper>

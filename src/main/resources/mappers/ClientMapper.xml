@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 매핑될 DAO 인터페이스 풀네임 -->
+<mapper namespace="com.hiworld.client.dao.ClientDAO">
+
+	
+	<!-- 회원 정보 수정 -->
+	<update id="updateClient">
+		UPDATE CLIENT 
+		SET	NAME = #{name},	TEL = #{tel}
+		WHERE ID = #{id}
+	</update>
+	
+	
+	
+	
+	<!-- 회원 정보 수정 -->
+	
+	<!--  비밀번호 수정 -->
+	<update id="updatepw" parameterType="clientVO">
+		UPDATE HW_USERLIST 
+		SET	UserPW = #{UserPW}	
+		WHERE UserSerial = #{UserSerial}
+	</update>
+	<!-- 비밀번호 조회  -->
+	<select id="selectpw" resultType="clientVO">
+	SELECT * 
+	FROM HW_USERLIST
+	WHERE UserSerial = #{UserSerial}
+	</select>
+
+		<!--  연락처 수정 -->
+		<update id="updateTel" parameterType="clientVO">
+		UPDATE HW_USERLIST 
+		SET	UserTel = #{UserTel}
+		WHERE UserSerial = #{UserSerial}
+		</update>
+			<!-- 연락처 조회  -->
+		<select id="selectTel" resultType="clientVO">
+		SELECT * 
+		FROM HW_USERLIST
+		WHERE UserSerial = #{UserSerial}
+		</select>
+	
+	
+		<!-- 주소 수정  --> 
+	<update id="updateAddress" parameterType="clientVO">
+		UPDATE HW_USERLIST 
+		SET	UserAddress = #{UserAddress}
+		WHERE UserSerial = #{UserSerial}
+	</update>
+	<!-- 주소 조회  -->
+	<select id="selectAddress" resultType="clientVO">
+	SELECT * 
+	FROM HW_USERLIST 
+	WHERE UserSerial = #{UserSerial}	
+	</select>
+	
+	<!--######################################회원아이디 비번 찾기-->
+	<!-- 전체 회원 카운트 -->
+	<select id="allClientCount" resultType="int">
+		SELECT COUNT(*) 
+		FROM HW_USERLIST 
+		WHERE UserID!='ADMIN'
+	</select>
+	<!-- 아이디찾기  -->
+	<select id="selectFindId" resultType="clientVO">
+	SELECT UserID 
+	FROM HW_USERLIST 
+	WHERE UserName = #{name} AND UserTel = #{tel}
+	</select>
+	
+	<!-- 임시비밀번호 발급 받기 위해서 정보 받기-->
+	<select id="selectuserInfo" resultType="clientVO">
+	SELECT * 
+	FROM HW_USERLIST 
+	WHERE UserID = #{id} AND UserTel = #{tel}
+	</select>
+	
+	<!-- 임시비밀번호로 수정  -->
+	<update id="updateFindPw">
+		UPDATE HW_USERLIST 
+		SET UserPW = #{pw}
+		WHERE UserSerial = #{serial}
+	</update>
+	
+	<!-- ################################### 구현 완료  -->
+	<!-- 회원 회원 가입 -->
+	<!-- parameterType 값은 자동으로 설정됨? 아마 아닐경우 직접 써주기 -->
+	<insert id="insertClient" parameterType="clientVO">
+		INSERT 
+		INTO HW_USERLIST (UserName, UserID, UserPW, UserGender, UserBirth, UserTel, UserAddress)
+		VALUES(#{UserName}, #{UserID}, #{UserPW}, #{UserGender}, #{UserBirth}, #{UserTel}, #{UserAddress})
+	</insert>
+	
+	<!-- 회원가입시 미니홈피 기본값 등록 -->
+	<insert id="insertMiniHP">
+		INSERT 
+		INTO MiniHP_UserMenu (UserSerial, UserID)
+		VALUES(#{UserSerial},#{UserID})
+	</insert>
+	
+	<!-- 아이디 중복 체크 구현 -->
+	<select id="idCheck" resultType="int">
+		SELECT count(*) 
+		FROM HW_USERLIST
+		WHERE UserID=#{UserID}
+	</select>
+	
+	<!-- 네이버 회원 확인 -->
+	<select id="NaverCheckClient" resultType="sessionVO">
+		SELECT UserSerial, UserID, UserName, UserCash, UserBirth, UserTel, UserAddress, UserGender 
+		FROM HW_USERLIST 
+		WHERE UserID = #{UserID}
+	</select>
+	
+	<!-- 회원 로그인 확인 -->
+	<select id="checkClient" resultType="sessionVO">
+		SELECT UserSerial, UserID, UserName, UserCash, UserBirth, UserTel, UserAddress, UserGender 
+		FROM HW_USERLIST 
+		WHERE UserID = #{UserID} AND UserPW = #{UserPW}
+	</select>
+	
+	<!-- 회원 한명 조회 -->
+	<select id="getOneClient" resultType="clientVO">
+		<!-- #{id}는 dao를 호출할때 VO값을 넣어서 보내면 VO에 선언된 id값을 get해서 가져옴 -->
+		SELECT * 
+		FROM HW_USERLIST 
+		WHERE UserID = #{UserID}		
+	</select>
+	
+	<!-- 밤톨 충전 -->
+	<update id="userCash">
+		UPDATE HW_USERLIST 
+		SET UserCash = #{UserCash}
+		WHERE UserID = #{UserID}
+	</update>
+	
+	<!-- PW확인 -->
+	<select id="pwCheck" resultType="String">
+		SELECT UserPW 
+		FROM HW_USERLIST 
+		WHERE UserID= #{UserID}
+	</select>
+	
+	<!-- 회원 전체 카운트 -->
+	<select id="countBoardPage" resultType="int">
+		SELECT COUNT(UserSerial) 
+		FROM HW_USERLIST 
+		WHERE UserID != 'ADMIN' AND Ban != 1
+	</select>
+	
+	<!-- 회원 전체 조회 -->
+	<select id="getAllClientData" resultType="clientVO">
+		SELECT * 
+		FROM HW_USERLIST 
+		WHERE UserID != 'ADMIN' AND Ban != 1
+	</select>
+	
+	<select id="getAllClient" resultType="clientVO">
+		SELECT * 
+		FROM HW_USERLIST 
+		WHERE UserID != 'ADMIN' AND Ban != 1 
+		LIMIT #{offset}, #{size}
+	</select>
+		
+	<!-- 로그인시 밴 확인 -->
+	<select id="checkBan" resultType="int">
+		SELECT Ban 
+		FROM HW_USERLIST 
+		WHERE UserSerial = #{UserSerial}
+	</select>
+	
+	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@   ADMIN   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+	
+	<!-- 밴한 회원 카운트 -->
+	<select id="countBoardBanPage" resultType="int">
+		SELECT COUNT(UserSerial) 
+		FROM HW_USERLIST
+		WHERE UserID != 'ADMIN' AND Ban = 1
+	</select>
+	
+	<!-- 밴한 회원 전체 조회 -->
+	<select id="getAllBanClientData" resultType="clientVO">
+		SELECT * 
+		FROM HW_USERLIST 
+		WHERE UserID != 'ADMIN' AND Ban = 1 
+	</select>
+	
+	<select id="getAllBanClient" resultType="clientVO">
+		SELECT * 
+		FROM HW_USERLIST 
+		WHERE UserID != 'ADMIN' AND Ban = 1 
+		LIMIT #{offset}, #{size}
+	</select>
+	
+	<!-- 밴 -->
+	<update id="banClient">
+		UPDATE HW_USERLIST 
+		SET Ban = 1 
+		WHERE UserSerial = #{UserSerial}
+	</update>
+	
+	<!-- 밴 풀기 -->
+	<update id="unBanClient">
+		UPDATE HW_USERLIST 
+		SET Ban = 0 
+		WHERE UserSerial = #{UserSerial}
+	</update>
+	
+	<!-- 게시판 업로드 -->
+	<insert id="BoardSubmit">
+		INSERT 
+		INTO HW_Board (userSerial, title, content, lookUp, userName, banUser)
+		VALUES (#{userSerial},#{title},#{content}, 0, #{userName}, #{banUser})
+	</insert>
+	
+	<!-- 게시판 갯수 가져오기 -->
+	<select id="countNoticePage" resultType="int">
+		SELECT COUNT(boardSerial) 
+		FROM HW_Board 
+		WHERE userSerial = 1;
+	</select>
+	
+	<!-- 게시판 가져오기 -->
+	<select id="getBoardList" resultType="boardVO">
+		SELECT * 
+		FROM HW_Board 
+		WHERE userSerial = 1 
+		ORDER BY boardSerial DESC
+		LIMIT #{offset}, #{size}
+	</select>
+	
+	<!-- 게시판 세부정보 -->
+	<select id="getBoardOne" resultType="boardVO">
+		SELECT * 
+		FROM HW_Board 
+		WHERE boardSerial = #{boardSerial}
+	</select>
+
+	<!-- 게시판 댓글 -->
+	<select id="getBoardReply" resultType="boardReplyVO">
+		SELECT * 
+		FROM HW_Board_Reply 
+		WHERE boardSerial = #{boardSerial} 
+		ORDER BY replySerial DESC
+	</select>
+	
+	<!-- 댓글 시리얼번호 -->
+	<select id="getBoardReplySerial" resultType="String">
+		SELECT replySerial
+		FROM HW_Board_Reply
+		WHERE userSerial = #{userSerial} AND userName = #{userName} AND boardSerial = #{boardSerial} AND replyContent = #{replyContent}
+	</select>
+	
+	<!-- 게시판 조회 1올리기 -->
+	<update id="lookUp">
+		UPDATE HW_Board
+		SET lookUp = lookUp+1
+		WHERE boardSerial = #{boardSerial}
+	</update>
+	
+	<!-- 게시판 삭제 -->
+	<delete id="BoardDelete">
+		DELETE 
+		FROM HW_Board
+		WHERE boardSerial = #{boardSerial}
+	</delete>
+	
+	<!-- 관리자 댓글 -->
+	<update id="adminReplyInsert">
+		UPDATE HW_Board
+		SET adminReply = 1
+		WHERE boardSerial = #{boardSerial}
+	</update>
+	
+	<!-- 댓글 등록  -->
+	<insert id="insertReply" parameterType="boardReplyVO">
+		INSERT 
+		INTO HW_Board_Reply(userSerial, userName, userID, boardSerial, replyContent)
+		VALUES (#{userSerial},#{userName},#{userID},#{boardSerial},#{replyContent})
+	</insert>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="ReplyDelete">
+		DELETE 
+		FROM HW_Board_Reply
+		WHERE replySerial = #{replySerial}
+	</delete>
+	
+	<!-- 문의사항 갯수 -->
+	<select id="countQuestionPage" resultType="int">
+		SELECT COUNT(boardSerial) 
+		FROM HW_Board 
+		WHERE userSerial != 1;
+	</select>
+	
+	
+	<!-- 문의사항 가져오기 -->
+	<select id="getQuestionList" resultType="boardVO">
+		SELECT * 
+		FROM HW_Board 
+		WHERE userSerial != 1 
+		ORDER BY boardSerial DESC
+		LIMIT #{offset}, #{size}
+	</select>
+	
+	<!-- 문의사항 전부 가져오기 -->
+	<!-- 게시판 가져오기 -->
+	<select id="getAllQuestionList" resultType="boardVO">
+		SELECT * 
+		FROM HW_Board 
+		WHERE userSerial != 1 
+		ORDER BY boardSerial DESC
+	</select>
+	
+	
+	<!-- 관리자 댓글 확인 -->
+	<select id="adminReplyCheck" resultType="int">
+		SELECT COUNT(*) 
+		FROM HW_Board
+		WHERE userSerial = 1 AND replySerial = #{replySerial}
+	</select>
+	
+</mapper>
+

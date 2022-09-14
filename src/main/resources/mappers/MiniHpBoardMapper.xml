@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiworld.minihp.dao.MiniHpBoardDAO">
+	<select id="getFolderScope" resultType="int">
+		SELECT scope FROM MiniHP_Board_Folder
+		WHERE serial=#{folderSerial}
+	</select>
+	
+	<!-- 폴더 관련 -->
+	<!-- 기본 폴더를 제외한 모든 폴더 찾기 -->
+	<select id="getAllFolder" resultType="com.hiworld.minihp.vo.MiniHPBoardFolderVO">
+		SELECT * FROM MiniHP_Board_Folder WHERE UserSerial=#{userSerial}
+	</select>
+	<insert id="addFolder" parameterType="com.hiworld.minihp.vo.MiniHPBoardFolderVO">
+		INSERT INTO MiniHP_Board_Folder(UserSerial,folderName,scope)
+		VALUES(#{userSerial},#{folderName},#{scope})
+	</insert>
+	
+	<select id="countInsideFolder" resultType="int">
+		SELECT COUNT(folderSerial) FROM MiniHP_Board_View
+		WHERE folderSerial=#{serial};
+	</select>
+	<delete id="deleteFolder">
+		DELETE FROM MiniHP_Board_Folder
+		WHERE serial = #{serial}
+	</delete>
+
+	<update id="updateFolder" parameterType="com.hiworld.minihp.vo.MiniHPBoardFolderVO">
+		UPDATE MiniHP_Board_Folder
+		SET folderName=#{folderName},scope=#{scope}
+		WHERE serial=#{serial}
+	</update>
+	
+	
+	
+	<!-- 게시판 관련 -->
+	<select id="getFirstFolderSerial" resultType="int">
+		SELECT serial FROM MiniHP_Board_Folder
+		WHERE UserSerial=#{userSerial}
+		LIMIT 1
+	</select>
+	<select id="getAll" resultType="com.hiworld.minihp.vo.MiniHpBoardVO">
+		SELECT * FROM MiniHP_Board_View
+		WHERE folderSerial=#{folderSerial}
+		ORDER BY cDate DESC
+		LIMIT #{offset}, #{size}
+	</select>
+	<select id="getFolderName" resultType="string">
+		SELECT folderName FROM MiniHP_Board_Folder
+		WHERE serial = #{folderSerial}
+	</select>
+	
+	<!-- insert -->
+	<insert id="insert" parameterType="com.hiworld.minihp.vo.MiniHpBoardVO">
+		INSERT INTO MiniHP_Board(UserSerial,folderSerial,title,content,file)
+		VALUES(#{userSerial},#{folderSerial},#{title},#{content},#{file})
+	</insert>
+	
+	<!-- title, userName, uDate, hit, content -->
+	<select id="get" resultType="com.hiworld.minihp.vo.MiniHpBoardVO">
+		SELECT * FROM MiniHP_Board_View
+		WHERE boardSerial = #{serial}
+	</select>
+	<update id="updateBoardFolder" parameterType="int">
+		UPDATE MiniHP_Board
+		SET folderSerial=#{folderSerial}
+		WHERE boardSerial=#{boardSerial}
+	</update>
+	
+	<!-- delete -->
+	<delete id="delete">
+		DELETE FROM MiniHP_Board
+		WHERE boardSerial=#{serial}
+	</delete>
+	
+	<!-- update -->
+	<update id="update" parameterType="com.hiworld.minihp.vo.MiniHpBoardVO">
+		UPDATE MiniHP_Board
+		SET title=#{title}, content=#{content}, file=#{file}, uDate=CURRENT_TIMESTAMP
+		WHERE boardSerial=#{boardSerial};
+	</update>
+	
+	<!-- 댓글 -->
+	<select id="getAllReply" resultType="com.hiworld.minihp.vo.MiniHpBoardReplyVO">
+		SELECT * FROM MiniHP_Board_Reply_View
+		WHERE boardSerial=#{boardSerial}
+	</select>
+	<insert id="insertReply" parameterType="com.hiworld.minihp.vo.MiniHpBoardReplyVO">
+		INSERT INTO MiniHP_Board_Reply(UserSerial,boardSerial,replyContent)
+		VALUES(#{userSerial},#{boardSerial},#{replyContent})
+	</insert>
+	<delete id="deleteReply">
+		DELETE FROM MiniHP_Board_Reply
+		WHERE replySerial=#{serial}
+	</delete>
+	<update id="updateReply">
+		UPDATE MiniHP_Board_Reply
+		SET replyContent=#{content}
+		WHERE replySerial=#{serial}
+	</update>
+	
+	<!-- 조회수 -->
+	<update id="updateHit">
+		UPDATE MiniHP_Board_View
+		SET hit = hit+1
+		WHERE boardSerial=#{boardSerial}
+	</update>
+</mapper>

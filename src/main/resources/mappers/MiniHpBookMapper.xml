@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiworld.minihp.dao.MiniHpBookDAO">
+	
+	<select id="getAll" resultType="com.hiworld.minihp.vo.MiniHpBookVO">
+		SELECT * FROM MiniHP_Book_View
+		WHERE UserSerial = #{userSerial}
+		ORDER BY cDate DESC
+		LIMIT #{offset}, #{size}
+	</select>
+	<select id="getMiniMe" resultType="String">
+		SELECT characterSrc FROM UserSelect_Article
+		WHERE UserSerial=#{userSerial}
+	</select>
+	<select id="countAll" resultType="int">
+		SELECT COUNT(bookSerial) FROM MiniHP_Book_View
+		WHERE UserSerial = #{userSerial}
+	</select>
+	
+	<!-- insert -->
+	<insert id="insert" parameterType="com.hiworld.minihp.vo.MiniHpBookVO">
+		INSERT INTO MiniHP_Book(UserSerial,writeUserSerial,content,isSecret)
+		VALUES(#{userSerial},#{writeUserSerial},#{content},#{isSecret})
+	</insert>
+	
+	<!-- delete -->
+	<delete id="delete">
+		DELETE FROM MiniHP_Book
+		WHERE bookSerial=#{serial}
+	</delete>
+	
+	<!-- update -->
+	<update id="update">
+		UPDATE MiniHP_Book
+		SET content=#{content}, uDate=CURRENT_TIMESTAMP
+		WHERE bookSerial=#{serial}
+	</update>
+	
+	<update id="changeSecret">
+		UPDATE MiniHP_Book
+		SET isSecret=#{isSecret}
+		WHERE bookSerial=#{serial}
+	</update>
+	
+	<!-- 댓글 -->
+	<!-- <select id="getReplyCnt" resultType="int">
+		SELECT COUNT(videoSerial) FROM MiniHP_Video_Reply
+		WHERE videoSerial=#{videoSerial}
+	</select> -->
+	<select id="getAllReply" resultType="com.hiworld.minihp.vo.MiniHpBookReplyVO">
+		SELECT * FROM MiniHP_Book_Reply_View
+		WHERE bookSerial=#{bookSerial}
+	</select>
+	<insert id="insertReply" parameterType="com.hiworld.minihp.vo.MiniHpBookReplyVO">
+		INSERT INTO MiniHP_Book_Reply(UserSerial,bookSerial,replyContent)
+		VALUES(#{userSerial},#{bookSerial},#{replyContent})
+	</insert>
+	<delete id="deleteReply">
+		DELETE FROM MiniHP_Book_Reply
+		WHERE replySerial=#{serial}
+	</delete>
+	<update id="updateReply">
+		UPDATE MiniHP_Book_Reply
+		SET replyContent=#{content}
+		WHERE replySerial=#{serial}
+	</update>
+</mapper>

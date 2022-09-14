@@ -1,0 +1,51 @@
+@charset "UTF-8";
+#Context table{
+	border-top:1px solid;
+	border-bottom:1px solid;
+	width: 100%;
+	text-align: center;
+}
+#Context table tr,#Context table td{
+	border-top:1px solid black;
+	border-bottom:1px solid black;
+	height: 29px;
+	vertical-align:middle;
+}
+
+
+#serchQuestion{
+	text-align: center;
+	margin-bottom:20px;
+}
+
+#Context a{
+	display:block;
+	text-align: center;
+	margin-top:10px;
+}
+
+#Context table a{
+	margin-top:0px;
+	text-align: center;
+}
+#paging{
+	text-align: center;
+	margin-top:10px;
+}
+#paging a{
+	text-align: center;
+	display:inline;
+	
+}
+
+.questionhover:hover{
+	color:red;
+	cursor:pointer;
+}
+.questionhover2:hover{
+	color:royalblue;
+	cursor:pointer;
+}
+.questionhover3:hover{
+	text-decoration: underline;
+}

@@ -1,0 +1,36 @@
+#Context{
+	width: 100%;
+	height: 100%;
+}
+#Context table{
+	        width: 100%;  
+	        text-align: center;
+	        margin:auto;
+}
+#Context table tr, #Context table td{
+	        border-bottom: 1px solid black;
+	        height: 32px;
+			vertical-align: middle;	   
+			border-top: 1px solid black;
+	        
+}
+
+.noticemainhover:hover{
+	text-decoration: underline;
+}
+
+#noticetitle{
+	text-align: center;
+	margin-bottom:10px;
+}
+
+
+.noticehover:hover{
+	color:red;
+	
+}
+
+#deletenotice:hover{
+	color:red;
+	cursor:pointer;
+}

@@ -1,0 +1,57 @@
+@charset "UTF-8";
+body{
+    width: 100%;
+    height: 100%;
+}
+.Navi{
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-around;
+    height: 30px;
+    align-items: center;
+}
+
+.sangpum table{
+    border:1px solid black;
+	width: 798px;
+    height: 80%;
+    text-align: center;
+    display: table;
+    border-spacing: 0 17px;
+    border-collapse: separate;
+    border-collapse: none;
+
+}
+
+tr#tablehead{
+	border-bottom:1px soild;
+}
+
+.sangpum tr,th{
+	vertical-align: middle;
+}
+.sangpum #tablehead tr{
+	border-bottom:1px soild;
+}
+
+.sangpum img{
+    display: block;
+    border: 1px solid black;
+	margin:0 auto;
+    width: 100px;
+    height: 100px;
+}
+
+.shoppinghover:hover{
+	color:red;
+	cursor:pointer;
+}
+
+.Navihover:hover{
+	cursor:pointer;
+	color:royalblue;
+}
+
+.Navihover{
+	font-size: larger;
+}

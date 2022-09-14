@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	<!-- DB연결하는 커넥트 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="org.mariadb.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mariadb://hi-world.cvlf2noxnadn.ap-northeast-2.rds.amazonaws.com:3306/Hi_World"></property>
+		<property name="username" value="Hi_World"></property>
+		<property name="password" value="Hi_World"></property>
+	</bean>
+
+	<!-- SqlSessionFactory(자바와 마이바티스를 연결해주며 환결설정파일 등록하는 곳) -->
+	<bean id="SqlSessionFectory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 마이바티스에 DB값 등록 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- 마이바티스 환결설정 파일 등록 -->
+		<property name="configLocation"	value="classpath:/mybatis-config.xml" />
+		<!-- 자바와 오라클 사이에 매핑하는 환경설정 등록 -->
+		<property name="mapperLocations" value="classpath:/mappers/*.xml" />
+	</bean>
+
+
+	<!-- SqlSessionTemplate : Spring과 myBatis 연동, SqlSession 생성에 관여함 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"	destroy-method="clearCache">
+		<constructor-arg name="sqlSessionFactory" ref="SqlSessionFectory" />
+	</bean>
+
+	<!-- mapper interface: mapping파일의 sql call을 위한 interface 즉, mapping 파일의 sql을 java interface로 호출하게 해줌 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 이 패키지 아래 모든 인터페이스를 mapper 인터페이스로 인식 -->
+		<property name="basePackage" value="com.hiworld.client.dao,com.hiworld.minihp.dao,com.hiworld.article.dao" />
+	</bean>
+	
+	<!-- DataSourceTransactionManager: 주로 jdbc나 mybatis로 db접근시 사용 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- @Transactional 사용해서 트랜잭션 처리 가능하게 함(자동 롤백) -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+
+</beans>
+

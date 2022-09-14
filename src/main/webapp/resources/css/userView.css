@@ -1,0 +1,56 @@
+table {
+	width: 70%;
+	margin-top: 10px;
+	height: 93%;
+	margin-left: 140px;
+}
+@font-face {
+    font-family: 'SDSamliphopangche_Outline';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+body{
+     font-family: 'SDSamliphopangche_Outline';
+     font-weight: 400;
+      }
+input{
+    font-family:'SDSamliphopangche_Outline';
+      }
+.fontsize{
+	font-size: 45px;
+	font-family: 'SDSamliphopangche_Outline';
+}
+
+h3 {
+	color: #778899;
+	text-align: center;
+	margin-top: 8px;
+}
+
+
+#text {
+	margin-top: 30px;
+}
+
+.fontsize {
+	font-family: sans-serif;
+}
+
+.fontcolor {
+	color: rgb(243,105,4);
+}
+#telbut{
+	margin-top: 5px;	
+	margin-left: 55px;
+}
+.Pwchc1{
+	margin-bottom: 5px;
+}
+#pwbut{
+	margin-top: 5px;
+}
+#addressbut{
+	margin-top: 5px;
+	margin-left: 55px;
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiworld.minihp.dao.MiniHpSettingDAO">
+	
+	<select id="getPw" resultType="String">
+		SELECT UserPW
+		FROM HW_USERLIST
+		WHERE UserID = #{id}
+	</select>
+	
+	<select id="getMenuAvailable" resultType="com.hiworld.minihp.vo.MiniHpUserMenuVO">
+		SELECT menu1, menu2, menu3, menu4, menu5, menu6, menu7, menuBGColor, menuFontColor, menuBorderColor
+		FROM MiniHP_UserMenu
+		WHERE UserSerial = #{userSerial}
+	</select>
+	
+	<update id="updateMenuAvailable">
+		UPDATE MiniHP_UserMenu
+		SET menu3 = #{menu3}, menu4 = #{menu4}, menu5 = #{menu5}, menu6 = #{menu6},
+		    menuBGColor = #{menuBGColor}, menuFontColor = #{menuFontColor}, menuBorderColor = #{menuBorderColor}
+		WHERE UserSerial = #{UserSerial}
+	</update>
+
+</mapper>

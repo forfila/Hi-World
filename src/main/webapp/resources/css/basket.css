@@ -1,0 +1,37 @@
+@charset "UTF-8";
+
+#basketCon{
+	width:100%;
+	height: 100%;
+
+}
+
+
+
+.sangpum table{
+    border:1px solid black;
+    width: 100%;
+    height: 80%;
+    text-align: center;
+    display: table;
+    border-spacing: 0 10px;
+    border-collapse: separate;
+    border-collapse: none;
+
+}
+
+#tablehead{
+	text-align: center;
+}
+
+#tbody tr,th{
+	vertical-align: middle;
+}
+.baskethover{
+	cursor: pointer;
+}
+
+.baskethover:hover{
+	color:red;
+	
+}

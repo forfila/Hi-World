@@ -1,0 +1,55 @@
+@charset "UTF-8";
+
+#article_con{
+	width:100%;
+	height: 100%;
+	
+}
+@font-face {
+	font-family: 'SDSamliphopangche_Outline';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+	}
+body, input, textarea, select, button{
+	 font-family: 'SDSamliphopangche_Outline';
+	 font-weight: 400;
+}
+
+
+#article_box {
+	width: 280px;
+    height: 500px;
+    margin-left: 250px;
+    padding-top: 100px;
+    padding-left: 30px;
+}
+
+
+#article_box .uploadDiv,input,textarea,select, h1{
+	margin-bottom:10px;
+}
+
+#article_con h1{
+	margin-top:20px;
+	font-size: x-large;
+}
+
+#article_box input{
+	width: 140px;
+}
+
+#article_box select{
+	width: 148px;
+}
+#article_box #uploadFile{
+	width: 230px;
+}
+
+#uploadBtn{
+	margin-left:95px;
+}
+
+textarea{
+	resize: none;
+}

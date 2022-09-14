@@ -1,0 +1,159 @@
+package com.hiworld.client.dao;
+
+import java.util.ArrayList;
+
+
+import org.apache.ibatis.annotations.Param;
+
+import com.hiworld.client.vo.BoardReplyVO;
+import com.hiworld.client.vo.BoardVO;
+import com.hiworld.client.vo.ClientVO;
+import com.hiworld.client.vo.sessionVO;
+
+/* myBatis에서 메소드를 가져와서 사용하기 위해서 */
+public interface ClientDAO {
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/* 회원 정보 수정 */
+	int updateClient(ClientVO clientVO);
+	
+	/* 회원 정보 삭제 */
+	int deleteClient(ClientVO clientVO);
+	
+/* ==============회원 정보 수정=============== */
+	
+	/* 패스워드 수정*/
+	int updatepw(ClientVO clientVO);
+	/* 패스워드 조회*/
+	ClientVO selectpw(int clientVO);
+
+	/* 연락처 수정*/
+	int updateTel(ClientVO clientVO);
+	/* 이름 조회*/
+	ClientVO selectTel(int clientVO);
+	
+	
+	/* 주소 수정*/
+	int updateAddress(ClientVO clientVO);
+	/* 이름 조회*/
+	ClientVO selectAddress(int clientVO);
+	
+	/* ------------------회원정보 조회 끝------------------*/
+	/* 아이디 비번 찾기*/
+	ClientVO selectFindId(@Param("name")String name, @Param("tel")String tel);
+	/* 임시 비밀번호를 받기 위해서 씨리얼 번호를 받음*/
+	ClientVO selectuserInfo(@Param("id")String id, @Param("tel")String tel);
+	/* 시리얼 번호로 조회후 비번 수정*/
+	int updateFindPw(@Param("serial")int Serial, @Param("pw")String pw);
+	
+	
+	
+//	############################### 기능 구현 완료
+	/* 전체 회원 카운트 */
+	int allClientCount();
+	/* 로그인*/
+	int userLogin(ClientVO clientVO);
+	
+	/* 회원 정보 입력 성공시 성공한 갯수 나옴 1 */
+	int insertClient(ClientVO clientVO);
+	
+	/* 회원가입시 미니홈피 기본값 등록 */
+	int insertMiniHP(ClientVO clientVO);
+	
+	/* 네이버 회원 체크 */
+	sessionVO NaverCheckClient(String UserID);
+	
+	/* 회원 로그인 확인 */
+	sessionVO checkClient(ClientVO clientVO);
+	
+	/* 회원 한명 보기 */
+	/* ()안에 넣은 VO값을 가지고 mapper에서 get해서 사용가능 */
+	ClientVO getOneClient(String UserID);
+	
+	/* 밤톨 충전 */
+	int userCash(ClientVO clientVO);
+	
+	/* 아이디 중복 체크*/
+	int idCheck(String userId);
+	
+	/*내정보보기 PW중복체크*/
+	String pwCheck(String UserID);
+	
+	/* 회원 전체 카운트 */
+	int countBoardPage();
+	
+	/* 회원 전체 보기 */
+	ArrayList<ClientVO> getAllClientData();
+	ArrayList<ClientVO> getAllClient(@Param("offset")int offset, @Param("size")int size);
+	
+	/* 로그인시 밴 확인 */
+	int checkBan(ClientVO clientVO);
+	
+	
+//	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@   ADMIN @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	/* 밴한 회원 카운트 */
+	int countBoardBanPage();
+	
+	/* 밴한 회원 전체 보기 */
+	ArrayList<ClientVO> getAllBanClientData();
+	ArrayList<ClientVO> getAllBanClient(@Param("offset")int offset, @Param("size")int size);
+	
+	/* 밴 */
+	int banClient(int UserSerial);
+	
+	/* 밴 풀기 */
+	int unBanClient(int UserSerial);
+	
+	/* 게시판 등록 */
+	int BoardSubmit(BoardVO boardVO);
+	
+	/* 게시판 갯수 가져오기 */
+	int countNoticePage();
+	
+	/* 게시판 가져오기 */
+	ArrayList<BoardVO> getBoardList(@Param("offset")int offset, @Param("size")int size);
+	
+	/* 게시판 세부정보 */
+	BoardVO getBoardOne(BoardVO boardVO);
+	
+	/* 게시판 댓글 */
+	ArrayList<BoardReplyVO> getBoardReply(BoardVO boardVO);
+	
+	/* 댓글 시리얼번호 */
+	String getBoardReplySerial(BoardVO boardVO);
+	
+	/* 조회 1 올리기 */
+	void lookUp(BoardVO boardVO);
+	
+	/* 게시글 삭제 */
+	void BoardDelete(BoardVO boardVO);
+	
+	/* 관리자 댓글 등록 */
+	void adminReplyInsert(BoardVO boardVO);
+	
+	/* 댓글 등록 */
+	void insertReply(BoardVO boardVO);
+	
+	/* 댓글 삭제 */
+	void ReplyDelete(BoardReplyVO boardReplyVO);
+	
+	/* 문의사항 갯수 */
+	int countQuestionPage();
+	
+	/* 문의사항 가져오기 */
+	ArrayList<BoardVO> getQuestionList(@Param("offset")int offset, @Param("size")int size);
+	
+	/* 문의사항 전부 가져오기 */
+	ArrayList<BoardVO> getAllQuestionList();
+	
+	/* 관리자 댓글 확인 */
+	int adminReplyCheck(BoardVO boardVO);
+}
+	 

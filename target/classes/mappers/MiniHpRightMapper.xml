@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiworld.minihp.dao.MiniHpRightDAO">
+	<select id="getBoardList" resultType="com.hiworld.minihp.vo.MiniHpBoardVO">
+		SELECT boardSerial, title, cDate 
+		FROM MiniHP_Board 
+		WHERE UserSerial=#{userSerial} 
+		ORDER BY cDate DESC 
+		LIMIT 5
+	</select>
+	<select id="getPictureList" resultType="com.hiworld.minihp.vo.MiniHpPictureVO">
+		SELECT pictureSerial, title, cDate 
+		FROM MiniHP_Picture 
+		WHERE UserSerial=#{userSerial} 
+		ORDER BY cDate DESC 
+		LIMIT 5
+	</select>
+	<select id="getVideoList" resultType="com.hiworld.minihp.vo.MiniHpVideoVO">
+		SELECT videoSerial, title, cDate 
+		FROM MiniHP_Video 
+		WHERE UserSerial=#{userSerial} 
+		ORDER BY cDate DESC 
+		LIMIT 5
+	</select>
+	
+	<select id="countToday" resultType="com.hiworld.minihp.vo.CntTodayVO">
+		SELECT p1.pc pictureCnt, p2.pct pictureCntToday, b1.bc boardCnt, b2.bct boardCntToday, v1.vc videoCnt, v2.vct videoCntToday, g1.gc bookCnt, g2.gct bookCntToday
+		FROM
+		(SELECT COUNT(UserSerial) pc FROM MiniHP_Picture WHERE UserSerial=#{userSerial}) p1,
+		(SELECT COUNT(UserSerial) pct FROM MiniHP_Picture WHERE UserSerial=#{userSerial} AND date(cDate)=date(now())) p2,
+		(SELECT COUNT(UserSerial) bc FROM MiniHP_Board WHERE UserSerial=#{userSerial}) b1,
+		(SELECT COUNT(UserSerial) bct FROM MiniHP_Board WHERE UserSerial=#{userSerial} AND date(cDate)=date(now())) b2,
+		(SELECT COUNT(UserSerial) vc FROM MiniHP_Video WHERE UserSerial=#{userSerial}) v1,
+		(SELECT COUNT(UserSerial) vct FROM MiniHP_Video WHERE UserSerial=#{userSerial} AND date(cDate)=date(now())) v2,
+		(SELECT COUNT(UserSerial) gc FROM MiniHP_Book WHERE UserSerial=#{userSerial}) g1,
+		(SELECT COUNT(UserSerial) gct FROM MiniHP_Book WHERE UserSerial=#{userSerial} AND date(cDate)=date(now())) g2
+	</select>
+	
+	<select id="getAll" resultType="com.hiworld.minihp.vo.MiniHpNeiWordVO">
+		SELECT * FROM MiniHP_NeiWord_View
+		WHERE UserSerial=#{userSerial}
+		ORDER BY cDate DESC
+	</select>
+	<insert id="insert" parameterType="com.hiworld.minihp.vo.MiniHpNeiWordVO">
+		INSERT INTO MiniHP_NeiWord(UserSerial,writeUserSerial,content)
+		VALUES(#{userSerial},#{writeUserSerial},#{content})
+	</insert>
+	<delete id="delete">
+		DELETE FROM MiniHP_NeiWord
+		WHERE serial=#{serial}
+	</delete>
+	<update id="update">
+		UPDATE MiniHP_NeiWord
+		SET content=#{content}
+		WHERE serial=#{serial}
+	</update>
+	
+	<select id="random" resultType="Integer">
+		SELECT UserSerial FROM HW_USERLIST
+		WHERE UserSerial>1 AND BAN=0 AND UserSerial!=#{userSerial}
+	</select>
+</mapper>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiworld.minihp.dao.MiniHpPictureDAO">
+	<select id="getFolderScope" resultType="int">
+		SELECT scope FROM MiniHP_Picture_Folder
+		WHERE serial=#{folderSerial}
+	</select>
+	
+	<!-- 폴더 관련 -->
+	<!-- 기본 폴더를 제외한 모든 폴더 찾기 -->
+	<select id="getAllFolder" resultType="com.hiworld.minihp.vo.MiniHPPictureFolderVO">
+		SELECT * FROM MiniHP_Picture_Folder WHERE UserSerial=#{userSerial}
+	</select>
+	<insert id="addFolder" parameterType="com.hiworld.minihp.vo.MiniHPPictureFolderVO">
+		INSERT INTO MiniHP_Picture_Folder(UserSerial,folderName,scope)
+		VALUES(#{userSerial},#{folderName},#{scope})
+	</insert>
+	
+	<select id="countInsideFolder" resultType="int">
+		SELECT COUNT(folderSerial) FROM MiniHP_Picture_View
+		WHERE folderSerial=#{serial};
+	</select>
+	<delete id="deleteFolder">
+		DELETE FROM MiniHP_Picture_Folder
+		WHERE serial = #{serial}
+	</delete>
+
+	<update id="updateFolder" parameterType="com.hiworld.minihp.vo.MiniHPPictureFolderVO">
+		UPDATE MiniHP_Picture_Folder
+		SET folderName=#{folderName},scope=#{scope}
+		WHERE serial=#{serial}
+	</update>
+	
+	
+	
+	<!-- 게시판 관련 -->
+	<select id="getFirstFolderSerial" resultType="int">
+		SELECT serial FROM MiniHP_Picture_Folder
+		WHERE UserSerial=#{userSerial}
+		LIMIT 1
+	</select>
+	<select id="getAll" resultType="com.hiworld.minihp.vo.MiniHpPictureVO">
+		SELECT * FROM MiniHP_Picture_View
+		WHERE folderSerial=#{folderSerial}
+		ORDER BY cDate DESC
+		LIMIT #{offset}, #{size}
+	</select>
+	<select id="getFolderName" resultType="string">
+		SELECT folderName FROM MiniHP_Picture_Folder
+		WHERE serial = #{folderSerial}
+	</select>
+	
+	<!-- insert -->
+	<insert id="insert" parameterType="com.hiworld.minihp.vo.MiniHpPictureVO">
+		INSERT INTO MiniHP_Picture(UserSerial,folderSerial,title,content,file)
+		VALUES(#{userSerial},#{folderSerial},#{title},#{content},#{file})
+	</insert>
+	
+	<update id="updatePictureFolder" parameterType="int">
+		UPDATE MiniHP_Picture
+		SET folderSerial=#{folderSerial}
+		WHERE pictureSerial=#{pictureSerial}
+	</update>
+	
+	<!-- delete -->
+	<delete id="delete">
+		DELETE FROM MiniHP_Picture
+		WHERE pictureSerial=#{serial}
+	</delete>
+	
+	<!-- update -->
+	<select id="get" resultType="com.hiworld.minihp.vo.MiniHpPictureVO">
+		SELECT * FROM MiniHP_Picture_View
+		WHERE pictureSerial = #{serial}
+	</select>
+	<update id="update" parameterType="com.hiworld.minihp.vo.MiniHpPictureVO">
+		UPDATE MiniHP_Picture
+		SET title=#{title}, content=#{content}, file=#{file}, uDate=CURRENT_TIMESTAMP
+		WHERE pictureSerial=#{pictureSerial};
+	</update>
+	
+	<!-- 댓글 -->
+	<select id="getReplyCnt" resultType="int">
+		SELECT COUNT(pictureSerial) FROM MiniHP_Picture_Reply
+		WHERE pictureSerial=#{pictureSerial}
+	</select>
+	<select id="getAllReply" resultType="com.hiworld.minihp.vo.MiniHpPictureReplyVO">
+		SELECT * FROM MiniHP_Picture_Reply_View
+		WHERE pictureSerial=#{pictureSerial}
+	</select>
+	<insert id="insertReply" parameterType="com.hiworld.minihp.vo.MiniHpPictureReplyVO">
+		INSERT INTO MiniHP_Picture_Reply(UserSerial,pictureSerial,replyContent)
+		VALUES(#{userSerial},#{pictureSerial},#{replyContent})
+	</insert>
+	<delete id="deleteReply">
+		DELETE FROM MiniHP_Picture_Reply
+		WHERE replySerial=#{serial}
+	</delete>
+	<update id="updateReply">
+		UPDATE MiniHP_Picture_Reply
+		SET replyContent=#{content}
+		WHERE replySerial=#{serial}
+	</update>
+</mapper>

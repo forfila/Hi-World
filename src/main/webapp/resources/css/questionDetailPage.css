@@ -1,0 +1,35 @@
+@charset "UTF-8";
+
+#questionDCon{
+	height: 580px;
+}
+
+
+#questionDtable textarea{
+	height:400px;
+	width: 780px;
+	border:none;
+	resize:none;
+}
+
+#replyTable{
+	border-top:none;
+}
+#replyTable #dat{
+    width: 400px;
+    font-weight: 600;
+    color:orangered;
+    
+}
+
+#reply{
+	text-align: center;
+}
+#Context{
+	overflow-y:scroll;
+}
+
+.noticehover:hover{
+	color:red;
+	cursor:pointer;
+}

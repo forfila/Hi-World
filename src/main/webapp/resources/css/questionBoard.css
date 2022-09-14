@@ -1,0 +1,32 @@
+@charset "UTF-8";
+
+#board_con{
+	width: 100%;
+	height:100%;
+	text-align: center;
+	display:table;
+}
+
+#board_con #boardheader{
+
+	width: 787px;
+	height: 41px;
+	border: 1px solid;
+	text-align: center;
+	margin-left: 4px;
+}
+
+#headertitle{
+	margin-top:14px;
+}
+#board_con input{
+	width: 781px;
+	height: 41px;
+	outline: none;
+}
+
+#board_con textarea{
+	width: 783px;
+	height: 453px;
+	outline: none;
+}

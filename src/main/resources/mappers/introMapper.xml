@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiworld.minihp.dao.MiniHpIntroDAO">
+	
+	<select id="getData" resultType="com.hiworld.minihp.vo.MiniHpIntroVO">
+		SELECT *
+		FROM MiniHP_Intro
+		WHERE UserSerial = #{userSerial}
+	</select>
+	
+	<select id="getInfo" resultType="String">
+		SELECT hpInfo
+		FROM MiniHP_Intro
+		WHERE UserSerial = #{userSerial}
+	</select>
+	
+	<update id="updateInfo">
+		UPDATE MiniHP_Intro
+		SET hpInfo = #{hpInfo}
+		WHERE UserSerial = #{userSerial}
+	</update>
+	
+	<select id="getTitle" resultType="String">
+		SELECT hpTitle
+		FROM MiniHP_Intro
+		WHERE UserSerial = #{userSerial}
+	</select>
+	
+	<update id="updateTitle">
+		UPDATE MiniHP_Intro
+		SET hpTitle = #{hpTitle}
+		WHERE UserSerial = #{userSerial}
+	</update>
+	
+	<select id="getPicture" resultType="java.util.Map">
+		SELECT hpPicture
+		FROM MiniHP_Intro
+		WHERE UserSerial = #{userSerial}
+	</select>
+	
+	<select id="getFileName" resultType="String">
+		SELECT fileName
+		FROM MiniHP_Intro
+		WHERE UserSerial = #{userSerial}
+	</select>
+	
+	<update id="updatePicture">
+		UPDATE MiniHP_Intro
+		SET fileName = #{fileName}, hpPicture = #{hpPicture} 
+		WHERE UserSerial = #{userSerial}
+	</update>
+	
+	<select id="checkVisitor" resultType="com.hiworld.minihp.vo.MiniHpVisitorVO">
+		SELECT *
+		FROM MiniHP_Visitor
+		WHERE OwnerSerial = #{OwnerSerial} AND GuestSerial = #{GuestSerial}
+	</select>
+	
+	<insert id="insertVisitor">
+		INSERT INTO MiniHP_Visitor
+		VALUES (#{OwnerSerial}, #{GuestSerial})
+	</insert>
+	
+	<select id="getToday" resultType="int">
+		SELECT hpToday
+		FROM MiniHP_Intro
+		WHERE UserID = #{UserID}
+	</select>
+	
+	<update id="updateToday">
+		UPDATE MiniHP_Intro
+		SET hpToday = hpToday + 1
+		WHERE UserSerial = #{userSerial}
+	</update>
+	
+	<select id="getTotal" resultType="int">
+		SELECT hpTotal
+		FROM MiniHP_Intro
+		WHERE UserID = #{UserID}
+	</select>
+	
+	<update id="updateTotal">
+		UPDATE MiniHP_Intro
+		SET hpTotal = hpTotal + 1
+		WHERE UserSerial = #{userSerial}
+	</update>
+	
+	<select id="getAllNeighbor" resultType="com.hiworld.minihp.vo.MiniHpIntroVO">
+		SELECT mi.hpTitle, hu.UserSerial, hu.UserID, hu.UserName 
+		FROM MiniHP_Intro mi, HW_USERLIST hu
+		WHERE mi.UserSerial = hu.UserSerial;
+	</select>
+</mapper>

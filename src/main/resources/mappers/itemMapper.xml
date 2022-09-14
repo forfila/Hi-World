@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hiworld.minihp.dao.MiniHpItemDAO">
+	
+	<select id="getItemList" resultType="com.hiworld.minihp.vo.MiniHpSelectedItemVO">
+		SELECT *
+		FROM UserSelect_Article
+		WHERE userSerial = #{userSerial}
+	</select>
+	
+	<select id="getMinimiList" resultType="com.hiworld.minihp.vo.MiniHpUserItemVO">
+		SELECT *
+		FROM User_Article
+		WHERE UserSerial = #{UserSerial} AND ArticleKinds = #{type}
+	</select>
+	
+	<select id="getStoryRoomList" resultType="com.hiworld.minihp.vo.MiniHpUserItemVO">
+		SELECT *
+		FROM User_Article
+		WHERE UserSerial = #{UserSerial} AND ArticleKinds = #{type}
+	</select>
+	
+	<update id="updateStoryRoom">
+		UPDATE UserSelect_Article
+		SET backgroundSrc = #{storyRoom}
+		WHERE UserSerial = #{UserSerial}
+	</update>
+	
+	<update id="updateMinimi">
+		UPDATE UserSelect_Article
+		SET characterSrc = #{minimi}, minimiX = #{minimiX}, minimiY = #{minimiY}
+		WHERE UserSerial = #{UserSerial}
+	</update>
+	
+	<update id="updateMousePointer">
+		UPDATE UserSelect_Article
+		SET mouseSrc = #{mousePointer}
+		WHERE UserSerial = #{UserSerial}
+	</update>
+	
+	<select id="getMouseList" resultType="com.hiworld.minihp.vo.MiniHpUserItemVO">
+		SELECT *
+		FROM User_Article
+		WHERE UserSerial = #{UserSerial} AND ArticleKinds = #{type}
+	</select>
+	
+	<select id="getPlayList" resultType="com.hiworld.minihp.vo.MiniHpMusicVO">
+		SELECT musicTitle, musicSrc
+		FROM UserSelect_Music
+		WHERE userSerial = #{userSerial}
+	</select>
+	
+	<select id="getNotUsingSongList" resultType="com.hiworld.minihp.vo.MiniHpMusicVO">
+		SELECT ArticleName AS musicTitle, ArticleImg AS musicSrc
+		FROM User_Article
+		WHERE UserSerial = #{userSerial} AND ArticleKinds = '음악'
+		  AND ArticleImg NOT IN (SELECT musicSrc 
+		  					 	 FROM UserSelect_Music
+							 	 WHERE userSerial = #{userSerial})
+	</select>
+	
+	<select id="getMusicSrc" resultType="String">
+		SELECT ArticleImg
+		FROM User_Article
+		WHERE ArticleName = #{musicTitle} AND ArticleKinds = '음악' AND UserSerial = #{userSerial}
+	</select>
+	
+	<select id="getMusicTitle" resultType="String">
+		SELECT musicTitle
+		FROM UserSelect_Music
+		WHERE musicTitle = #{musicTitle} AND userSerial = #{userSerial}
+	</select>
+	
+	
+	
+	<select id="getAllSkin" resultType="String">
+		SELECT ArticleImg 
+		FROM User_Article
+		WHERE UserSerial=#{userSerial}
+		AND ArticleKinds = '스킨'
+	</select>
+	<select id="getUsingSkin" resultType="String">
+		SELECT skinSrc 
+		FROM UserSelect_Article
+		WHERE userSerial=#{userSerial}
+	</select>
+	<update id="updateSkin">
+		UPDATE UserSelect_Article
+		SET skinSrc=#{src}
+		WHERE userSerial=#{userSerial}
+	</update>
+
+	<insert id="addToPlayList">
+		INSERT INTO UserSelect_Music
+		VALUES (#{userSerial}, #{musicTitle}, #{musicSrc})
+	</insert>
+	
+	<delete id="removeFromPlayList">
+		DELETE FROM UserSelect_Music
+		WHERE userSerial = #{userSerial} AND musicTitle = #{musicTitle}
+	</delete>
+
+</mapper>
